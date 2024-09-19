@@ -1,0 +1,36 @@
+CREATE DATABASE IF NOT EXISTS usaran_resource_router;
+
+USE usaran_resource_router;
+
+CREATE TABLE IF NOT EXISTS Resources (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE,  -- Ensure unique resource names
+    website VARCHAR(255),
+    phone VARCHAR(50)
+);
+
+CREATE TABLE IF NOT EXISTS Services (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    resource_id INT,
+    name VARCHAR(255) NOT NULL,
+    phone VARCHAR(50),
+    website VARCHAR(255),
+    email VARCHAR(255),
+    description TEXT,
+    FOREIGN KEY (resource_id) REFERENCES Resources(id) ON DELETE CASCADE,
+    UNIQUE (resource_id, name)  -- Ensure unique combination of resource_id and service name
+);
+
+INSERT IGNORE INTO Resources (name, website, phone) VALUES
+    ('Autism Support of Alabama', 'www.autism-alabama.org', '1-877-428-8846');
+
+INSERT IGNORE INTO Services (resource_id, name, phone, website, email, description) VALUES
+    (1, 'Alabama Hands and Voices', '205-677-3136', 'www.alhandsandvoices.org', NULL, 'For families with children who are deaf/hard of hearing'),
+    (1, 'Alabama Pre/Post Adoption Connections (APAC)', '251-460-2727', NULL, 'dfredenburg@childrensaid.org', 'Support services for adoptive and foster families'),
+    (1, 'Coastal Alabama Down Syndrome Society', '888-454-0317', NULL, NULL, NULL),
+    (1, 'Williams Syndrome Association', '251-753-4133', 'www.williams-syndrome.org', 'skelly@williams-syndrome.org', 'Searcy Kelly, Gulf Coast Regional Chairperson'),
+    (1, 'Autism Pensacola', '850-434-7171', 'www.autismpensacola.org', NULL, 'Support & advocacy group'),
+    (1, 'Autism Society of Florida', NULL, 'www.autismfl.com', NULL, NULL),
+    (1, 'TEAAM (Together Enhancing Autism Awareness in Mississippi)', '866-993-2437', 'www.teaam.org', NULL, NULL),
+    (1, 'Gulf Coast Autism Support Network', '228-588-3016', NULL, NULL, 'Contact: Patty Gautier'),
+    (1, 'Lucedale Area Autism Support Group', '601-947-1878 or 601-508-3246', NULL, NULL, 'Contact: Virginia Fine');
